@@ -1,0 +1,62 @@
+﻿@page "/GetStudent"
+@using Microsoft.EntityFrameworkCore
+@using StudentDetails.Pages.Account
+@using StudentDetails.Data
+
+
+@model StudentDetails.Pages.Account.GetStudentModel
+@{
+    ViewData["Title"] = "Get Student Details";
+    Layout = "_Layout1";
+ 
+
+}
+<style>
+    .container{
+        margin-top:20px;
+        align-content:center;
+    }
+    span{
+        color:red;
+    }
+</style>
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+        <h2>Get Student Details</h2><br />
+        Enter the given data to get the student detail.
+        <span ></span>
+    </div>
+   <form method="post" class="form-control">
+    <div class="form-group col-md-6">
+        <label id="changeLabel">Enter your Roll Number:</label>
+        <input type="number" class="form-control" id="changeInput" asp-for="addStudent.Roll_No" required/>
+        <br />
+        <input type="submit" class="btn btn-primary" value="Submit" />
+    </div>
+    </form>
+</div>
+@if(Model.Name==""){ }else{
+<div class="alert alert-danger container">
+    <p>Name: @Model.Name</p>
+    <p>Class: @Model.Class</p>
+    <p>Roll No: @Model.Roll</p>
+    <p>Contact No: @Model.PhoneNumber</p>
+</div>
+}
+<script type="text/javascript">
+    function CheckInput(){
+    var data=document.getElementById("getData");
+    var change=document.getElementById("changeLabel");
+    var input =document.getElementById("changeInput");
+    var tmp=data.value;
+    if(tmp=="roll"){
+        change.textContent="Enter your Roll Number:";
+        input.value="";
+    }
+    else{
+            change.textContent = "Enter your Contact Number:";
+            input.value = "";
+    }
+    }
+</script>
+   

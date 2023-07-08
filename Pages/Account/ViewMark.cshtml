@@ -1,0 +1,47 @@
+﻿@page "/ViewMark"
+@model StudentDetails.Pages.Account.ViewMarkModel
+
+@{
+    ViewData["Title"] = "View Mark";
+    Layout = "~/Pages/Account/_Layout1.cshtml";
+}
+
+<style>
+    .container {
+        margin-top: 20px;
+        align-content: center;
+    }
+
+    span {
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+        <h2>View Marks</h2><br />
+        Enter the given data to get the student mark.
+        <span></span>
+    </div>
+    <form method="post" class="form-control">
+        <div class="form-group col-md-6">
+            <label id="changeLabel">Enter your Roll Number:</label>
+            <input type="number" class="form-control" id="changeInput" asp-for="Marks.RollNumber" required />
+            <br />
+            <span asp-validation-for="Marks.RollNumber"></span>
+            <br />
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </form>
+    @if (ModelState.IsValid && !(Model.StudentName==null))
+    {
+        <div class="alert alert-primary" role="alert">
+            <p>Name:@Model.StudentName</p>
+            <p>Roll Number:@Model.Marks.RollNumber</p>
+        @foreach (var item in Model.MarksList)
+        {
+            <p>@item.Subject:@item.Mark</p>
+        }
+        </div>
+    }
+
+</div>

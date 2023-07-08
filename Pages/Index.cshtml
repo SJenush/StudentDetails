@@ -1,0 +1,18 @@
+﻿@page "/Index"
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var roll = Request.Query["Roll"];
+    Layout = "~/Pages/Account/_Layout1.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+   
+    <a href="/AddStudent">Add Student Details</a><br />
+    <a href="/GetStudent">Get Student Details</a><br />
+    <a href="/ViewStudent">View All Student Details</a><br />
+    <a href="/MarkEntry">Add Student Marks</a><br />
+    <a href="/ViewMark">View Student Marks</a><br />
+    @if (String.IsNullOrEmpty(roll)) { }else{ <p>Your Roll number is :@roll</p>}
+</div>

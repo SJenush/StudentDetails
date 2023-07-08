@@ -1,0 +1,89 @@
+﻿@page "/MarkEntry"
+@model StudentDetails.Pages.Account.CreateModel
+
+@{
+    ViewData["Title"] = "Mark Entry";
+    Layout = "_Layout1";
+}
+<style>
+    .container{
+        margin-top:20px;
+        align-content:center;
+    }
+    .para{
+        color:red;
+    }
+    .name{
+    color:green;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="container">
+
+    <div class="alert alert-primary" role="alert">
+        <h2>Mark Entry</h2><br />
+        <p class="name" id="ShowName"></p>
+       <p class="para" id="msg">@Model.msg</p>
+    </div>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label  class="control-label">Roll Number:</label>
+                <input asp-for="Marks.RollNumber" id="roll" class="form-control" required />
+                <span asp-validation-for="Marks.RollNumber" class="text-danger"></span>
+            </div>
+       
+            <div class="form-group">
+                <label  class="control-label">Subject:</label>
+              <select id="Sc_code" class="form-control"  required asp-for="Marks.Subject">
+                    <option value ="choose"selected>Choose...</option>
+                    <option value ="Tamil">Tamil</option>
+                        <option value="English" >English</option>
+                        <option value="Maths" >Maths</option>
+                        <option value="Science" >Science</option>
+                        <option value="Social" >Social</option>
+                    </select>
+                <span asp-validation-for="Marks.Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Mark:</label>
+                <input asp-for="Marks.Mark" class="form-control" required />
+                <span asp-validation-for="Marks.Mark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+    <script>
+        var sName=document.getElementById("ShowName");
+        var msg=document.getElementById("msg");
+    $(document).ready(function () {
+        // Select the <select> element by its ID
+        $('#roll').change(function () {
+            // Handler code here
+            var selectedValue = $(this).val();
+            msg.innerHTML="";
+            
+                $.ajax({
+                    url: '/MarkEntry?Roll=' + selectedValue,
+                    type: 'GET',
+                    success: function (result) {
+                        // Handle the AJAX response here
+                        sName.innerHTML = result;
+                        console.log(result);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle any errors here
+                        console.error(error);
+                    }
+                });
+            
+        });
+    });
+    </script>
+

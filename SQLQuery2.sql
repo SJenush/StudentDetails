@@ -1,0 +1,1 @@
+﻿insert into M_School(School_Code,School_Name) values(4,'Little Flower School')

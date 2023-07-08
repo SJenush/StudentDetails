@@ -1,0 +1,153 @@
+﻿@page "/AddStudent"
+@model StudentDetails.Pages.Account.AddStudentModel
+@{
+    string School="";
+    ViewData["Title"] = "Add Student Details";
+    Layout = "_Layout1";
+   
+
+}
+<style>
+    .container{
+        margin-top:25px;
+    }
+    span{
+        color:red;
+        font:13.5px;
+    }
+    #check{
+        display:none;
+    }
+  
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+
+<div class="container">
+
+    <div class="alert alert-primary" role="alert">
+       <h2>Add Student Details</h2><br />
+       Enter the given data to add the student.
+       <span asp-validation-for="@Model.addStudent.check"></span>
+    </div>
+    <form method="post" id="myForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Student Name</label>
+                <input type="text" class="form-control" id="Stud_Name" placeholder="Name" asp-for="addStudent.Stud_Name" required>
+                <span id="S_name" asp-validation-for="@Model.addStudent.Stud_Name"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputZip">Class</label>
+                <input type="number" class="form-control" placeholder="Class in number" asp-for="addStudent.Class"required min="1" max="12"/>
+                <span id="S_class" asp-validation-for="@Model.addStudent.Class"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Gender</label>
+                <br />
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="inlineRadio1" asp-for="addStudent.Gender" value="Male" checked>
+                    <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="inlineRadio2" asp-for="addStudent.Gender" value="Female">
+                    <label class="form-check-label">Female</label>
+                </div>
+                <span id="S_gen" asp-validation-for="@Model.addStudent.Gender"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label>DOB</label>
+                <input type="date" class="form-control" placeholder="dd/mm/yyyy" required asp-for="addStudent.Dob" />
+                <span id="S_name" asp-validation-for="@Model.addStudent.Dob"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Academic Year</label>
+                <select id="inputState" class="form-control" asp-for="addStudent.Acd_Year" required>
+                    <option selected>Choose...</option>
+                    <option>2022-2023</option>
+                    <option>2021-2022</option>
+                    <option>2020-2021</option>
+                    <option>2019-2020</option>
+                </select>
+                <span id="S_ach" asp-validation-for="@Model.addStudent.Acd_Year"></span>
+            </div>
+        </div>
+        <div class="form-row">
+           
+          
+            <div class="form-group col-md-2">
+                <label for="inputZip">School Code</label>
+                <select id="Sc_code" class="form-control" asp-for="addStudent.School_Code" required>
+                    <option value ="choose"selected>Choose...</option>
+                    @foreach(var school in Model.Schools)
+                    {
+                        <option value="@school.School_Code">@school.School_Code</option>
+                    }
+                   
+                </select>
+                <span id="S_code" asp-validation-for="@Model.addStudent.School_Code"></span>
+            </div>
+                <div class="form-group col-md-6">
+                <label>School Name</label>
+                <input type="text" value="@School" class="form-control" id="SchName" placeholder="School Name" disabled readonly>
+               
+            </div>
+        </div>
+       
+        <div class="form-row">
+        <div class="form-group col-md-8">
+            <label for="inputAddress2">Contact Number</label>
+            <input type="text" class="form-control" id="Contact" placeholder="Contact Number"asp-for="addStudent.Contact_no" required>
+                <span id="S_cont"></span>
+        </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck" required>
+                <label class="form-check-label" for="gridCheck">
+                    The above given details are correct
+                </label>
+                <span id="S_ver"></span>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Add Details">
+        <input id="check" type="text" asp-for="addStudent.check"/>
+    </form>
+</div>
+
+<script>
+    var sName = document.getElementById("SchName");
+    var sCode=document.getElementById("Sc_code");
+   
+    $(document).ready(function () {
+        // Select the <select> element by its ID
+        $('#Sc_code').change(function () {
+            // Handler code here
+            var selectedValue = $(this).val();
+            if(selectedValue=="choose"){
+            sName.value="";
+            }
+            else{
+            $.ajax({
+                url: '/SchoolCode?Code=' + selectedValue,
+                type: 'GET',
+                success: function (result) {
+                    // Handle the AJAX response here
+                    sName.value = result;
+                    
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors here
+                    console.error(error);
+                }
+            });
+        }
+        });
+    });
+</script>
+
+
+<script src="~/js/site.js"></script>
